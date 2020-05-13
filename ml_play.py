@@ -42,8 +42,7 @@ def ml_loop(side: str):
 			#      the scene immediately and send the scene information again.
 			#      Therefore, receive the reset scene information.
 			#      You can do proper actions, when the game is over or passed.
-			if scene_info.status == GameStatus.GAME_1P_WIN or \
-			   scene_info.status == GameStatus.GAME_2P_WIN:
+			if scene_info["status"] != "GAME_ALIVE":
 				# Do something updating or reseting stuff
 
 				# 3.2.1 Inform the game process that
