@@ -51,41 +51,41 @@ def ml_loop(side: str):
 				continue		
 
 			# 3.3. Put the code here to handle the scene information
-			if scene_info.frame == 0:
+			if scene_info["frame"] == 0:
 				y_direction = 0
-				y_last_position = scene_info.ball[1]
+				y_last_position = scene_info["ball[1]"]
 				x_direction = 0
-				x_last_position = scene_info.ball[0]
+				x_last_position = scene_info["ball[0]"]
 				x_last_direction = 0
 				x_rebound = 0
 				y_rebound = 0
 
 			else:
-				Vy = scene_info.ball_speed
-				Vx = scene_info.ball_speed
+				Vy = scene_info["ball_speed"]
+				Vx = scene_info.["ball_speed"]
 				distance = lambda x: 1 if x > 0 else -1
-				y_direction = distance(scene_info.ball[1] - y_last_position)
-				x_direction = distance(scene_info.ball[0] - x_last_position)
-				if scene_info.ball[0] - x_last_position != Vx:
+				y_direction = distance(scene_info["ball[1]"] - y_last_position)
+				x_direction = distance(scene_info["ball[0]"] - x_last_position)
+				if scene_info["ball[0]"] - x_last_position != Vx:
 					x_rebound = 1
 					Vx = -Vx
 				else:
 					x_rebound = 0
-				if scene_info.ball[1] - y_last_position != Vy:
+				if scene_info["ball[1]"] - y_last_position != Vy:
 					y_rebound = 1
 					Vy = -Vy
 				else:
 					y_rebound = 0
 			# if y_direction == 1:
 			# 	x_rebound = 0
-			# if scene_info.ball[1] > 280:
+			# if scene_info["ball[1]"] > 280:
 			# 	y_rebound = 0
 
 
 			# My rule for predict position	
 			if y_rebound != 0:
-				x_temp = scene_info.ball[0]
-				y_temp = scene_info.ball[1]
+				x_temp =  scene_info["ball[0]"]
+				y_temp = scene_info["ball[1]"]
 				if Vy < 0:
 					times = (int)(math.ceil((y_temp - 80) / abs(Vy)))
 					predict_ballx = x_temp + times * Vx
@@ -116,8 +116,8 @@ def ml_loop(side: str):
 
 
 			if x_rebound != 0:
-				x_temp = scene_info.ball[0]
-				y_temp = scene_info.ball[1]
+				x_temp = scene_info["ball[0]"]
+				y_temp = scene_info["ball[1]"]
 				times = (int)(math.ceil((y_temp - 80) / abs(Vx)))
 				predict_ballx = x_temp + times * Vx
 				if predict_ballx < 0:
@@ -128,31 +128,31 @@ def ml_loop(side: str):
 					predict_ballx = 195 - abs(Vx) * times
 			# 	predict_platX = predict_ballx - 17
 			# 	print(predict_platX)
-			# print([scene_info.ball[0], scene_info.ball[1]])
+			# print([scene_info["ball[0]"], scene_info["ball[1]"])
 			# print(input_current)
 			# 3.4. Send the instruction for this frame to the game process
-			# if scene_info.ball[1] > 280 or y_direction == 1:
-			# 	if scene_info.platform_1P[0] > 75:
+			# if scene_info["ball[1]"] > 280 or y_direction == 1:
+			# 	if scene_info["platform_1P[0]"] > 75:
 			# 		instruct = -1
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.MOVE_LEFT)
-			# 	elif scene_info.platform_1P[0] < 75:
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.MOVE_RIGHT)
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_LEFT)
+			# 	elif scene_info["platform_1P[0]"] < 75:
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_RIGHT)
 			# 		instruct = 1
 			# 	else:
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.NONE)
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.NONE)
 			# 		instruct = 0
 			# else:
-			if scene_info.platform_1P[0] > predict_platX:
-				comm.send_instruction(scene_info.frame, PlatformAction.MOVE_LEFT)
+			if scene_info["platform_1P[0]"] > predict_platX:
+				comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_LEFT)
 				instruct = -1
-			elif scene_info.platform_1P[0] < predict_platX:
-				comm.send_instruction(scene_info.frame, PlatformAction.MOVE_RIGHT)
+			elif scene_info["platform_1P[0]"] < predict_platX:
+				comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_RIGHT)
 				instruct = 1
 			else:
-				comm.send_instruction(scene_info.frame, PlatformAction.NONE)
+				comm.send_instruction(scene_info["frame"], PlatformAction.NONE)
 
-			x_last_position = scene_info.ball[0]
-			y_last_position = scene_info.ball[1]
+			x_last_position = scene_info["ball[0]"]
+			y_last_position = scene_info["ball[1]"]
 			x_last_direction = x_direction
 	else:
 		Vx = 7
@@ -165,8 +165,8 @@ def ml_loop(side: str):
 			#      the scene immediately and send the scene information again.
 			#      Therefore, receive the reset scene information.
 			#      You can do proper actions, when the game is over or passed.
-			if scene_info.status == GameStatus.GAME_1P_WIN or \
-			   scene_info.status == GameStatus.GAME_2P_WIN:
+			if scene_info["status"]== GameStatus.GAME_1P_WIN or \
+			   scene_info["status"] == GameStatus.GAME_2P_WIN:
 				# Do something updating or reseting stuff
 
 				# 3.2.1 Inform the game process that
@@ -175,41 +175,41 @@ def ml_loop(side: str):
 				continue		
 
 			# 3.3. Put the code here to handle the scene information
-			if scene_info.frame == 0:
+			if scene_info["frame"] == 0:
 				y_direction = 0
-				y_last_position = scene_info.ball[1]
+				y_last_position = scene_info["ball[1]"]
 				x_direction = 0
-				x_last_position = scene_info.ball[0]
+				x_last_position = scene_info["ball[0]"]
 				x_last_direction = 0
 				x_rebound = 0
 				y_rebound = 0
 
 			else:
-				Vy = scene_info.ball_speed
-				Vx = scene_info.ball_speed
+				Vy = scene_info["ball_speed"]
+				Vx = scene_info["ball_speed"]
 				distance = lambda x: 1 if x > 0 else -1
-				y_direction = distance(scene_info.ball[1] - y_last_position)
-				x_direction = distance(scene_info.ball[0] - x_last_position)
-				if scene_info.ball[0] - x_last_position != Vx:
+				y_direction = distance(scene_info["ball[1]"] - y_last_position)
+				x_direction = distance(scene_info["ball[0]"] - x_last_position)
+				if scene_info["ball[0]"] - x_last_position != Vx:
 					x_rebound = 1
 					Vx = -Vx
 				else:
 					x_rebound = 0
-				if scene_info.ball[1] - y_last_position != Vy:
+				if scene_info["ball[1]"]  - y_last_position != Vy:
 					y_rebound = 1
 					Vy = -Vy
 				else:
 					y_rebound = 0
 			# if y_direction == -1:
 			# 	x_rebound = 0
-			# if scene_info.ball[1] < 200:
+			# if scene_info["ball[0]"]  < 200:
 			# 	y_rebound = 0
 
 
 			# My rule for predict position	
 			if y_rebound != 0:
-				x_temp = scene_info.ball[0]
-				y_temp = scene_info.ball[1]
+				x_temp = scene_info["ball[0]"]
+				y_temp = scene_info["ball[1]"] 
 				times = (int)(math.ceil((415 - y_temp) / abs(Vx)))
 				predict_ballx = x_temp + times * Vx
 				if predict_ballx < 0:
@@ -224,8 +224,8 @@ def ml_loop(side: str):
 
 
 			if x_rebound != 0:
-				x_temp = scene_info.ball[0]
-				y_temp = scene_info.ball[1]
+				x_temp = scene_info["ball[0]"]
+				y_temp = scene_info["ball[1]"] 
 				times = (int)(math.ceil((415 - y_temp) / abs(Vx)))
 				predict_ballx = x_temp + times * Vx
 				if predict_ballx < 0:
@@ -240,25 +240,25 @@ def ml_loop(side: str):
 			# print(input_current)
 			# 3.4. Send the instruction for this frame to the game process
 			# if scene_info.ball[1] < 200 or y_direction == -1:
-			# 	if scene_info.platform_2P[0] > 75:
+			# 	if scene_info["platform_2P[0]"] > 75:
 			# 		instruct = -1
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.MOVE_LEFT)
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_LEFT)
 			# 	elif scene_info.platform_2P[0] < 75:
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.MOVE_RIGHT)
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_RIGHT)
 			# 		instruct = 1
 			# 	else:
-			# 		comm.send_instruction(scene_info.frame, PlatformAction.NONE)
+			# 		comm.send_instruction(scene_info["frame"], PlatformAction.NONE)
 			# 		instruct = 0
 			# else:
-			if scene_info.platform_2P[0] > predict_platX:
-				comm.send_instruction(scene_info.frame, PlatformAction.MOVE_LEFT)
+			if scene_info["platform_2P[0]"]> predict_platX:
+				comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_LEFT)
 				instruct = -1
-			elif scene_info.platform_2P[0] < predict_platX:
-				comm.send_instruction(scene_info.frame, PlatformAction.MOVE_RIGHT)
+			elif scene_info["platform_2P[0]"] < predict_platX:
+				comm.send_instruction(scene_info["frame"], PlatformAction.MOVE_RIGHT)
 				instruct = 1
 			else:
-				comm.send_instruction(scene_info.frame, PlatformAction.NONE)
+				comm.send_instruction(scene_info["frame"], PlatformAction.NONE)
 
-			x_last_position = scene_info.ball[0]
-			y_last_position = scene_info.ball[1]
+			x_last_position = scene_info["ball[0]"]
+			y_last_position = scene_info["ball[1]"]
 			x_last_direction = x_direction
