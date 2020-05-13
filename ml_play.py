@@ -37,8 +37,7 @@ def ml_loop(side: str):
 		Vy = -7
 		while True:
 			# 3.1. Receive the scene information sent from the game process.
-			scene_info = comm.get_scene_info()
-
+			scene_info = comm.recv_from_game()
 			# 3.2. If the game is over or passed, the game process will reset
 			#      the scene immediately and send the scene information again.
 			#      Therefore, receive the reset scene information.
